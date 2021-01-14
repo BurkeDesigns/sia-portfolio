@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sia's Portfolio</title>
+
+    <meta name="description" content="I am a passionate designer with 4 years of experience in Videography, Graphic Design and UI Design.">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+    <div id="app">
+
+        <div class="layout">
+            <header>
+                <div class="limit">
+                    <transition name="fade">
+                        <div class="logo" v-if="show">Sia Kang</div>
+                    </transition>
+
+                </div>
+
+            </header>
+            <main>
+                <div class="limit list" v-cloak>
+                    <div class="page-title">MULTIMEDIA DESIGNER</div>
+                    <hr>
+                    <div class="filters">
+                        <div :class="{filter:true, active: portfolio.filter == 'all'}" @click="changeFilter('all')">ALL</div>/
+                        <div :class="{filter:true, active: portfolio.filter == 'graphic'}" @click="changeFilter('graphic')">GRAPHIC</div>/
+                        <div :class="{filter:true, active: portfolio.filter == 'video'}" @click="changeFilter('video')">VIDEO</div>/
+                        <div :class="{filter:true, active: portfolio.filter == 'motion'}" @click="changeFilter('motion')">MOTION</div>
+                    </div>
+                </div>
+                <div class="grid" v-cloak>
+                    <div v-for="row in filteredContent" class="column">
+                        <div v-for="item in row" class="item" @click="selectItem(item)">
+                            <img :src="item.imgURL" alt="image" loading="lazy">
+                            <div class="caption">
+                                <div class="title">{{item.title}}</div>
+                                <div v-if="item.desc != ''" class="desc">{{item.desc}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer>
+                <div class="limit footer-content">
+                    <div>
+                        <img src="/assets/img/optimized/seul.jpg" alt="person" class="footer-img">
+                    </div>
+                    <div>
+                        <h4>ABOUT ME</h4>
+                        <p>I am a passionate designer with 4 years of experience in Videography, Graphic Design and UI Design. I enjoy working in fast-paced environments and have worked on the 2018 PyeongChang Winter Olympics and Samsung Product Release Presentation projects throughout my career. I am a creative, detail-oriented, organized, and self-motivated individual. I am eager to communicate with others through multiple channels.</p>
+                    </div>
+                    <div>
+                        <h4>SAY HI!</h4>
+                        <div class="footer-contact">
+                            <div>
+                                <a href="mailto:siakangdesign@gmail.com">siakangdesign@gmail.com</a>
+                            </div>
+                            <div>
+                                <a href="https://www.linkedin.com/in/sia-kang/" rel="noopener" target="_blank">LinkedIn</a>
+                            </div>
+                            <div>
+                                <a href="https://www.instagram.com/seulgiliciousdef/" rel="noopener" target="_blank">Instagram</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <transition name="fade">
+            <div :class="{popup:true, active: portfolio.active != null}" v-if="portfolio.active != null" @click="removeItem" v-cloak>
+                <img :src="portfolio.active.imgURL" alt="image" v-if="portfolio.active.format == 'image'">
+                <iframe :src="portfolio.active.linkTo" frameborder="0" v-if="portfolio.active.format == 'video'"></iframe>
+            </div>
+        </transition>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.4/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                show: true,
+                window: {
+                    width: 0,
+                },
+                layout: {
+                    main: {
+                        loading: true,
+                    },
+                },
+                portfolio: {
+                    filter: 'all',
+                    active: null,
+                    list: [{
+                            linkTo: 'https://www.youtube.com/embed/Yd1_wlLOM5k',
+                            imgURL: 'assets/img/optimized/mas-2.jpg',
+                            title: 'Video Contests 2015',
+                            desc: 'Independence Hall of Korea',
+                            type: 'video',
+                            format: 'video',
+                        }, {
+                            linkTo: 'https://www.youtube.com/embed/Ih136JIOkkE',
+                            imgURL: 'assets/img/optimized/best.jpg',
+                            title: 'PyeongChang 2018 Olympic Winter Games',
+                            desc: 'Julia Mancuso learns how to make rice wine in South Korea',
+                            type: 'video',
+                            format: 'video',
+                        }, {
+                            linkTo: 'https://www.youtube.com/embed/fMAUrKRgrHc',
+                            imgURL: 'assets/img/optimized/julia1.jpg',
+                            title: 'PyeongChang 2018 Olympic Winter Games',
+                            desc: 'Julia Mancuso hits the slopes with former Olympians',
+                            type: 'video',
+                            format: 'video',
+                        }, {
+                            linkTo: 'https://www.youtube.com/embed/OHQTwgLlgGU',
+                            imgURL: 'assets/img/optimized/img-3.jpg',
+                            title: 'Personal Project 2014',
+                            desc: 'Urban School in Korea',
+                            type: 'video',
+                            format: 'video',
+                        }, {
+                            linkTo: 'https://player.vimeo.com/video/331136097',
+                            imgURL: 'assets/img/optimized/smile.jpg',
+                            title: 'AAE Annual Meeting Slideshow 2019',
+                            desc: 'Slideshow Video',
+                            type: 'motion',
+                            format: 'video',
+                        }, {
+                            linkTo: 'https://player.vimeo.com/video/302079432',
+                            imgURL: 'assets/img/optimized/mo1121.jpg',
+                            title: 'Kinetic Typography',
+                            desc: 'Animation',
+                            type: 'motion',
+                            format: 'video',
+                        }, {
+                            linkTo: 'assets/img/mo3.gif',
+                            imgURL: 'assets/img/optimized/mo3.jpg',
+                            title: 'Cinemagraph',
+                            desc: '',
+                            type: 'motion',
+                            format: 'image',
+                        }, {
+                            linkTo: 'https://player.vimeo.com/video/292970999',
+                            imgURL: 'assets/img/optimized/mo10.jpg',
+                            title: 'Motion Graphic',
+                            desc: 'Animation',
+                            type: 'motion',
+                            format: 'video',
+                        }, {
+                            linkTo: 'assets/img/optimized/map.jpg',
+                            imgURL: 'assets/img/optimized/map.jpg',
+                            title: 'Building Brochure',
+                            desc: 'Interactive PDF',
+                            type: 'graphic',
+                            format: 'image',
+                        }, {
+                            linkTo: 'assets/img/optimized/brandbook2.jpg',
+                            imgURL: 'assets/img/optimized/brandbook2.jpg',
+                            title: 'Brandbook',
+                            desc: 'Client_concpet',
+                            type: 'graphic',
+                            format: 'image',
+                        },
+                        {
+                            linkTo: 'assets/img/optimized/brandbook1.jpg',
+                            imgURL: 'assets/img/optimized/brandbook1.jpg',
+                            title: 'Brandbook',
+                            desc: 'Client_concpet',
+                            type: 'graphic',
+                            format: 'image',
+                        },
+                        {
+                            linkTo: 'assets/img/optimized/ink.jpg',
+                            imgURL: 'assets/img/optimized/ink.jpg',
+                            title: 'Brandbook',
+                            desc: 'Client_concpet',
+                            type: 'graphic',
+                            format: 'image',
+                        }, {
+                            linkTo: 'assets/img/optimized/talk2.jpg',
+                            imgURL: 'assets/img/optimized/talk2.jpg',
+                            title: 'Flyer',
+                            desc: 'Flyer',
+                            type: 'graphic',
+                            format: 'image',
+                        }, {
+                            linkTo: 'assets/img/optimized/new2.jpg',
+                            imgURL: 'assets/img/optimized/new2.jpg',
+                            title: 'Onepager',
+                            desc: 'Flyer',
+                            type: 'graphic',
+                            format: 'image',
+                        }, {
+                            linkTo: 'assets/img/optimized/new3.jpg',
+                            imgURL: 'assets/img/optimized/new3.jpg',
+                            title: '35th Anniversary Notepad',
+                            desc: 'Notepad_design',
+                            type: 'graphic',
+                            format: 'image',
+                        }, {
+                            linkTo: 'assets/img/optimized/new4.jpg',
+                            imgURL: 'assets/img/optimized/new4.jpg',
+                            title: 'Powerpoint Template',
+                            desc: 'PPT_design',
+                            type: 'graphic',
+                            format: 'image',
+                        }, {
+                            linkTo: 'assets/img/optimized/poster4.jpg',
+                            imgURL: 'assets/img/optimized/poster4.jpg',
+                            title: 'Event Flyers',
+                            desc: '',
+                            type: 'graphic',
+                            format: 'image',
+                        }, {
+                            linkTo: 'assets/img/optimized/s9.jpg',
+                            imgURL: 'assets/img/optimized/s9.jpg',
+                            title: '2018 Samsung Galaxy S9 S9+',
+                            desc: 'POP(Point Of Purchase)',
+                            type: 'graphic',
+                            format: 'image',
+                        }, {
+                            linkTo: 'assets/img/optimized/pack.jpg',
+                            imgURL: 'assets/img/optimized/pack.jpg',
+                            title: "2018 Samsung Wearable New Year's Promotion",
+                            desc: 'POP(Point Of Purchase)',
+                            type: 'graphic',
+                            format: 'image',
+                        },
+
+
+                    ]
+                }
+            },
+            methods: {
+                pageLoading: function(toggle) {
+                    var x = this;
+                    this.layout.main.loading = true;
+                    if (window.loadingTimer != null) {
+                        clearTimeout(window.loadingTimer);
+                    }
+                    window.loadingTimer = setTimeout(function() {
+                        x.layout.main.loading = false;
+                    }, 700);
+                },
+                changeFilter(val) {
+                    if(this.portfolio.filter !== val){
+                        this.portfolio.filter = val;
+                        this.animateItems();
+                    }                    
+                },
+                animateItems(){
+                    this.$nextTick(function () {
+                        gsap.fromTo(".item",0.5, {
+                            rotateY:90,
+                            x:-100,
+                            scale:0.5,
+                            opacity:0,
+                            transformOrigin:"50% 50%"
+                        },{
+                            rotateY:0,
+                            x:0,
+                            scale:1,
+                            opacity:1,
+                            stagger: 0.02
+                        });
+                    });
+                },
+                selectItem(item) {
+                    this.portfolio.active = item;
+                },
+                removeItem() {
+                    this.portfolio.active = null;
+                },
+            },
+            watch:{
+                // filteredContent:function(newVal, oldVal){
+                //     this.$nextTick(function () {
+                //         gsap.fromTo(".item",0.5, {
+                //             rotateY:90,
+                //             x:-100,
+                //             scale:0.5,
+                //             opacity:0,
+                //             transformOrigin:"50% 50%"
+                //         },{
+                //             rotateY:0,
+                //             x:0,
+                //             scale:1,
+                //             opacity:1,
+                //             stagger: 0.1
+                //         });
+                //     });
+                // }
+            },
+            computed: {
+                filteredContent() {
+                    var x = this;
+                    var numOfColumns = 3;
+                    if (this.window.width < 700) {
+                        numOfColumns = 2;
+                    }
+                    if (this.window.width < 500) {
+                        numOfColumns = 1;
+                    }
+                    var data = this.portfolio.list;
+                    if (x.portfolio.filter != 'all') {
+                        data = _.filter(this.portfolio.list, {
+                            'type': x.portfolio.filter,
+                        });
+                    }
+                    var itemsPerColumn = Math.ceil(data.length / numOfColumns);
+
+                    return _.chunk(data, itemsPerColumn);
+                }
+            },
+            mounted() {
+                var x = this;
+                x.window.width = window.innerWidth;
+                window.addEventListener('resize', function() {
+                    console.log('resized window');
+                    x.window.width = window.innerWidth;
+                });
+
+                this.pageLoading();
+                gsap.from(".filter", 0.5, {
+                    opacity: 0,
+                    y: 50,
+                    stagger: { // wrap advanced options in an object
+                        each: 0.2,
+                        ease: "sine.inOut"
+                    }
+                });
+                this.animateItems();
+                
+
+                
+
+
+            }
+        });
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+</body></html>
